@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace BijlandInternationalApplication.Data_and_Classes
+namespace BijlandInternationalApplication.Models
 {
+    [Serializable]
     public class Order
     {
         #region Properties
