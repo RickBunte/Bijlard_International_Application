@@ -10,24 +10,20 @@ namespace BijlandInternationalApplication.Controllers
 {
     public class HomeController : Controller
     {
-        public List<Order> orders;
-        private ExcelReader excelReader = new ExcelReader();
-        //private readonly string _path = @"D:\GitHub Projects\Portfolio\Bijlard_International_Application\BijlandInternationalApplication\BijlandInternationalApplication\Data and Classes\Excel\SampleData.xlsx";
-        private readonly string _path = @"\\Data and Classes\Excel\SampledData.xlsx";
+        private static ExcelReader excelReader;
+        //I HAVE TO IMPROVE ON THIS!
 
         public ActionResult Index()
         {
-            excelReader.InitializeExcelObject(_path);
-            orders = TranslateOrdersToList();
+            excelReader = new ExcelReader();
+            excelReader.InitializeExcelObject();
 
-            return View(orders);
+            return View(excelReader.GetOrders());
         }
 
-        public ActionResult About()
+        public ActionResult Order(int id)
         {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
+            return View(excelReader.GetOrderById(id));
         }
 
         public ActionResult Contact()
@@ -37,21 +33,6 @@ namespace BijlandInternationalApplication.Controllers
             return View();
         }
 
-        public List<Order> TranslateOrdersToList()
-        {
-            List<Order> orders = new List<Order>();
-            for(int i = 2; i < excelReader.xlWorksheet.UsedRange.Rows.Count; i++)
-            {
-                DateTime excelDate = (excelReader.xlWorksheet.Cells[i, 1] as Microsoft.Office.Interop.Excel.Range).Value;
-                string region = (excelReader.xlWorksheet.Cells[i, 2] as Microsoft.Office.Interop.Excel.Range).Value;
-                string rep = (excelReader.xlWorksheet.Cells[i, 3] as Microsoft.Office.Interop.Excel.Range).Value;
-                string item = (excelReader.xlWorksheet.Cells[i, 4] as Microsoft.Office.Interop.Excel.Range).Value;
-                int units = (int)(excelReader.xlWorksheet.Cells[i, 5] as Microsoft.Office.Interop.Excel.Range).Value;
-                float price = (float)(excelReader.xlWorksheet.Cells[i, 6] as Microsoft.Office.Interop.Excel.Range).Value;
-                Order order = new Order(excelDate, region, rep, item, units, price);
-                orders.Add(order);
-            }
-            return orders;
-        }
+        
     }
 }

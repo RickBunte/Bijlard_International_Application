@@ -1,0 +1,44 @@
+﻿@model BijlandInternationalApplication.Models.Order
+@{
+    var order = Model.GetId() + 1;
+    ViewBag.Title = "Order " + order.ToString();
+}
+
+<div>
+    <h1>Bestelling @Model.date</h1>
+    <table>
+        <thead>
+            <tr>
+                <td style="font-weight:bold; width:50%">
+                    Product
+                </td>
+                <td style="font-weight:bold">
+                    Kosten
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    @Model.item
+                </td>
+                <td>
+                    Aantal: @Model.units
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    &euro; @Model.unitCost
+                </td>
+                <td>
+                    Totaal: &euro; @Model.GetTotalPrice()
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div>
+    <h2>Persoonsinformatie</h2>
+    <p>Naam: @Model.rep</p>
+    <p>Locatie: @Model.region</p>
+</div>
